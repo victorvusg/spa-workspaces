@@ -6,66 +6,27 @@ services:
     ports:
       - "81:80"
     volumes:
-      - ./../workspaces/hr-laravel:/var/www/html
+      - ./../workspaces/spa-backend:/var/www/html
       - ./.docker/nginx/config/:/etc/nginx/conf.d/
       - ./.docker/nginx/log/:/var/log/nginx/
     restart: always
     environment:
       REDIS_HOST: redis
     networks:
-      - hr-networks
+      - spa-networks
   php:
     container_name: php
     build: ./.docker/php/build/
     image: php-custom
     ports:
       - "9000:9000"
-    environment:
-      REDIS_HOST: redis
     restart: always
     volumes:
-      - ./../workspaces/hr-laravel:/var/www/html
+      - ./../workspaces/spa-backend:/var/www/html
       - ./.docker/php/log:/var/log/php-fpm
       - ./.docker/php/config/php.ini:/usr/local/etc/php/php.ini
-      - ./.docker/php/supervisor/horizon.conf:/etc/supervisor/conf.d/horizon.conf
-      - ./.docker/php/supervisor/horizon.log:/home/hozizon/horizon.log
     networks:
-      - hr-networks
-  redis:
-    container_name: redis
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    restart: always
-    volumes:
-      - ./.docker/redis/data:/var/lib/redis
-      - ./.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
-    networks:
-      - hr-networks
-  es:
-    container_name: es
-    build: ./.docker/elasticsearch/build/
-    image: elasticsearch-custom
-    volumes:
-      - ./.docker/elasticsearch/data/01:/usr/share/elasticsearch/data
-      - ./.docker/elasticsearch/log/01:/usr/share/elasticsearch/log
-    environment:
-      - discovery.type=single-node
-    networks:
-      - hr-networks
-    ports:
-      - "9200:9200"
-  varnish:
-    container_name: varnish
-    image: varnish:6.0.6
-    volumes:
-    - ./.docker/varnish/config/default.vcl:/etc/varnish/default.vcl
-    networks:
-      - hr-networks
-    ports:
-      - "80:80"
-    depends_on:
-      - proxy
+      - spa-networks
   proxy:
     container_name: proxy
     image: nginx:latest
@@ -78,7 +39,37 @@ services:
     depends_on:
       - nginx
     networks:
-      - hr-networks
+      - spa-networks
+  mysql:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: P2ssword1!
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker/mysql/data:/var/lib/mysql:rw
+    networks:
+      - spa-networks
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8000:80"
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      REDIS_HOST: redis
+    depends_on:
+      - mysql
+    restart: always
+    networks:
+      - spa-networks
 networks:
-  hr-networks:
+  spa-networks:
     external: true
