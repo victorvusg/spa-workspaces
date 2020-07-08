@@ -10,8 +10,18 @@ services:
       - ./.docker/nginx/config/:/etc/nginx/conf.d/
       - ./.docker/nginx/log/:/var/log/nginx/
     restart: always
-    environment:
-      REDIS_HOST: redis
+    networks:
+      - spa-networks
+  web-portal:
+    container_name: web-portal
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./../workspaces/spa-vue-frontend:/var/www/html
+      - ./.docker/web-portal/config/:/etc/nginx/conf.d/
+      - ./.docker/web-portal/log/:/var/log/nginx/
+    restart: always
     networks:
       - spa-networks
   php:
