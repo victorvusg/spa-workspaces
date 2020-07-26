@@ -24,6 +24,18 @@ services:
     restart: always
     networks:
       - spa-networks
+  dashboard:
+    container_name: dashboard
+    image: nginx:latest
+    ports:
+      - "82:80"
+    volumes:
+      - ./../workspaces/spa-vue-admin:/var/www/html
+      - ./.docker/dashboard/config/:/etc/nginx/conf.d/
+      - ./.docker/dashboard/log/:/var/log/nginx/
+    restart: always
+    networks:
+      - spa-networks
   php:
     container_name: php
     build: ./.docker/php/build/
