@@ -16,7 +16,7 @@ services:
     container_name: web-portal
     image: nginx:latest
     ports:
-      - "80:80"
+      - "4200:80"
     volumes:
       - ./../workspaces/spa-vue-frontend:/var/www/html
       - ./.docker/web-portal/config/:/etc/nginx/conf.d/
@@ -28,7 +28,7 @@ services:
     container_name: dashboard
     image: nginx:latest
     ports:
-      - "82:80"
+      - "5200:80"
     volumes:
       - ./../workspaces/spa-vue-admin:/var/www/html
       - ./.docker/dashboard/config/:/etc/nginx/conf.d/
@@ -53,7 +53,7 @@ services:
     container_name: proxy
     image: nginx:latest
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./.docker/proxy/config/:/etc/nginx/conf.d/
       - ./.docker/proxy/log/:/var/log/nginx/
