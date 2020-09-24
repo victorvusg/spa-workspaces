@@ -1,1 +1,1 @@
-Human Resources Application
+Spa Application
