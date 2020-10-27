@@ -6,4 +6,3 @@ RUN apt update && apt-get install  --no-install-recommends -y procps
 RUN apt install -y supervisor
 RUN docker-php-ext-install pcntl
 RUN docker-php-ext-enable redis
-RUN apt install mysql-server
