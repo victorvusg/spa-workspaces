@@ -12,36 +12,36 @@ services:
     restart: always
     networks:
       - spa-networks
-  web-portal:
-    container_name: web-portal
-    image: nginx:latest
-    ports:
-      - "4200:80"
-    volumes:
-      - ./../workspaces/spa-vue-frontend:/var/www/html
-      - ./.docker/web-portal/config/:/etc/nginx/conf.d/
-      - ./.docker/web-portal/log/:/var/log/nginx/
-    restart: always
-    networks:
-      - spa-networks
-  dashboard:
-    container_name: dashboard
-    image: nginx:latest
-    ports:
-      - "5200:80"
-    volumes:
-      - ./../workspaces/spa-vue-admin:/var/www/html
-      - ./.docker/dashboard/config/:/etc/nginx/conf.d/
-      - ./.docker/dashboard/log/:/var/log/nginx/
-    restart: always
-    networks:
-      - spa-networks
+  # web-portal:
+  #   container_name: web-portal
+  #   image: nginx:latest
+  #   ports:
+  #     - "4200:80"
+  #   volumes:
+  #     - ./../workspaces/spa-vue-frontend:/var/www/html
+  #     - ./.docker/web-portal/config/:/etc/nginx/conf.d/
+  #     - ./.docker/web-portal/log/:/var/log/nginx/
+  #   restart: always
+  #   networks:
+  #     - spa-networks
+  # dashboard:
+  #   container_name: dashboard
+  #   image: nginx:latest
+  #   ports:
+  #     - "5200:80"
+  #   volumes:
+  #     - ./../workspaces/spa-vue-admin:/var/www/html
+  #     - ./.docker/dashboard/config/:/etc/nginx/conf.d/
+  #     - ./.docker/dashboard/log/:/var/log/nginx/
+  #   restart: always
+  #   networks:
+  #     - spa-networks
   php:
     container_name: php
     build: ./.docker/php/build/
     image: php-custom
     ports:
-      - "9000:9000"
+      - "9001:9000"
     restart: always
     volumes:
       - ./../workspaces/spa-backend:/var/www/html
@@ -49,19 +49,19 @@ services:
       - ./.docker/php/config/php.ini:/usr/local/etc/php/php.ini
     networks:
       - spa-networks
-  proxy:
-    container_name: proxy
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./.docker/proxy/config/:/etc/nginx/conf.d/
-      - ./.docker/proxy/log/:/var/log/nginx/
-    restart: always
-    depends_on:
-      - nginx
-    networks:
-      - spa-networks
+  # proxy:
+  #   container_name: proxy
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./.docker/proxy/config/:/etc/nginx/conf.d/
+  #     - ./.docker/proxy/log/:/var/log/nginx/
+  #   restart: always
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - spa-networks
   mysql:
     container_name: mysql
     image: mysql:5.7

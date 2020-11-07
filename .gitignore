@@ -1,3 +1,4 @@
 /.idea
 /workspaces/
 /server/.docker/nginx/log/*
+/server/.docker/mysql
