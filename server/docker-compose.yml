@@ -95,6 +95,21 @@ services:
     restart: always
     networks:
       - spa-networks
+  wordpress:
+    container_name: spa-wordpress
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: ruser
+      WORDPRESS_DB_PASSWORD: P2ssword1!
+      WORDPRESS_DB_NAME: wordpress-spa-db
+    volumes:
+      - ./../workspaces/spa-website-wordpress-docker/spa-themes:/var/www/html/wp-content/themes
+      - ./../workspaces/spa-website-wordpress-docker/spa-plugins:/var/www/html/wp-content/plugins
+      - ./../workspaces/spa-website-wordpress-docker/spa-uploads:/var/www/html/wp-content/uploads
 networks:
   spa-networks:
     external: true
