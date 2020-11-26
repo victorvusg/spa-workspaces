@@ -96,7 +96,7 @@ services:
     networks:
       - spa-networks
   wordpress:
-    container_name: spa-wordpress
+    container_name: wordpress
     image: wordpress
     restart: always
     ports:
