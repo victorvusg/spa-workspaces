@@ -99,7 +99,6 @@ services:
   wordpress:
     container_name: wordpress
     image: wordpress
-    restart: always
     ports:
       - "9100:80"
     environment:
@@ -111,6 +110,9 @@ services:
       - ./../workspaces/spa-website-wordpress-docker/spa-themes:/var/www/html/wp-content/themes
       - ./../workspaces/spa-website-wordpress-docker/spa-plugins:/var/www/html/wp-content/plugins
       - ./../workspaces/spa-website-wordpress-docker/spa-uploads:/var/www/html/wp-content/uploads
+    restart: always
+    networks:
+      - spa-networks
 networks:
   spa-networks:
     external: true
