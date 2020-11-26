@@ -90,6 +90,7 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
       REDIS_HOST: redis
+      UPLOAD_LIMIT: 3000000000
     depends_on:
       - mysql
     restart: always
@@ -100,10 +101,10 @@ services:
     image: wordpress
     restart: always
     ports:
-      - 8080:80
+      - "9100:80"
     environment:
       WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: ruser
+      WORDPRESS_DB_USER: wordpress_user
       WORDPRESS_DB_PASSWORD: P2ssword1!
       WORDPRESS_DB_NAME: wordpress-spa-db
     volumes:
